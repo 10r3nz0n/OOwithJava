@@ -1,7 +1,3 @@
-/******************************************************************************
- * Esqueleto Java, Lorenzon - 2026-1.
- * onlinegdb configurado para LTS: 21.
- *******************************************************************************/
 public class HelloJava2 {
 
     public static void voceVersusJava(int idade) {
@@ -60,9 +56,7 @@ public class HelloJava2 {
 
         Video.mensagem("Informe seu nome:");
         nome = Teclado.readString();
-
         idade = Teclado.readInt("Qual sua idade?");
-
         voceVersusJava(idade);
 
         Video.rodape("Fim de execução!");
@@ -70,8 +64,3 @@ public class HelloJava2 {
     }
 
 }
-
-/*
- * Teclado: readInt(), readDouble, readString() e readData().
- * Video: mensagem(), limparTela(), pausa(), confirmar();
- */

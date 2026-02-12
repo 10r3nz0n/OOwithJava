@@ -1,4 +1,3 @@
-
 //tudo que usarmos neste exemplo já está implícito import de java.lang.*
 
 public class TesteObject {
@@ -16,7 +15,7 @@ public class TesteObject {
 
         Video.mensagem(objetoObject.toString()); // Object possui métodos que serão herdados nas classes que criarmos,
                                                  // princípio da herança
-                                                 // Exemplo . toStrig(), converte o objeto pra seu valor String
+                                                 // Exemplo . toString(), converte o objeto pra seu valor String
 
         // A classe String, o primeiro tipo que foge dos primitivos.
 
@@ -25,9 +24,20 @@ public class TesteObject {
                                                // um objeto
 
         Video.mensagem(nome1); // Usando como um primitivo, apesar de não ser
+
         Video.mensagem(nome2.toString()); // Usando como objeto e a diferença, porque é diferente de
                                           // objetoObject.toString()
                                           // primeiro contato com o polimorfismo de ocultação e sobrescrita
+        Video.mensagem("" + nome2.hashCode()); // código de preguiçoso, forçar as coisas
+
+        nome2 = "Junior";
+        Video.mensagem(nome2.toString());
+        Video.mensagem("" + nome2.hashCode()); // mudou, por que?
+
+        String nome3 = nome2;
+
+        Video.mensagem(nome3.toString());
+        Video.mensagem("" + nome3.hashCode()); // mudou, por que?
 
     }
 }
