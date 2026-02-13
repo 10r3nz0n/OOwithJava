@@ -1,66 +1,46 @@
-package temadogrupo.utilitarios;
-
+import java.lang.reflect.Method;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-/**
- * Classe utilitária para leitura segura de dados do teclado.
- * Usa a classe Scanner, com tratamento de exceções e mensagens orientativas.
- * 
- * Autor: Professor Lorenzon, revisão 2025-2
- * Uso: salvar dentro da pasta 'utilitarios' no projeto.
- */
-
 public class Teclado {
 
-    // Scanner único reutilizável
     private static final Scanner scanner = new Scanner(System.in);
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    /**
-     * Lê um valor inteiro digitado pelo usuário.
-     * Repete enquanto a entrada for inválida.
-     */
-    public static int readInt() {
+    public static int solicitarInt() {
         while (true) {
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Entrada inválida! Digite um número inteiro.");
-                scanner.nextLine(); // limpa buffer
+                scanner.nextLine();
             }
         }
     }
 
-    public static int readInt(String mensagem) {
+    public static int solicitarInt(String mensagem) {
         System.out.print(mensagem + " ");
-        return readInt();
+        return solicitarInt();
     }
 
-    /**
-     * Lê uma string (linha completa) digitada pelo usuário.
-     * Rejeita entradas vazias ou limpa o buffer ao iniciar.
-     */
-    public static String readString() {
+    public static String solicitarString() {
         while (true) {
             String valor = scanner.nextLine().trim();
-            if (!valor.isEmpty()) return valor;
-            System.out.println("Entrada vazia ou buffer limpado! Digite novamente.");
+            if (!valor.isEmpty())
+                return valor;
+            System.out.println("Entrada vazia ou correção de buffer limpado! Digite novamente.");
         }
     }
 
-    public static String readString(String mensagem) {
+    public static String solicitarString(String mensagem) {
         System.out.print(mensagem + " ");
-        return readString();
+        return solicitarString();
     }
 
-    /**
-     * Lê um valor decimal (double) digitado pelo usuário.
-     * Repete enquanto a entrada for inválida.
-     */
-    public static double readDouble() {
+    public static double solicitarDouble() {
         while (true) {
             try {
                 return scanner.nextDouble();
@@ -71,31 +51,94 @@ public class Teclado {
         }
     }
 
-    public static double readDouble(String mensagem) {
+    public static double solicitarDouble(String mensagem) {
         System.out.print(mensagem + " ");
-        return readDouble();
+        return solicitarDouble();
     }
 
-    /**
-     * Lê uma data no formato yyyy-MM-dd (ex: 2025-07-24). mudei abaixo
-     * Repete até o usuário digitar um formato válido.
-     */
+    public static LocalDate solicitarData() {
 
-    public static LocalDate readDate() {
+        // ou trocar DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                                                       //DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         while (true) {
-            String entrada = readString();
+            String entrada = solicitarString();
             try {
                 return LocalDate.parse(entrada, formatter);
             } catch (DateTimeParseException e) {
-                System.out.println("Data inválida! Use o formato dd/MM/yyyy.");
+                System.out.println("Data inválida! Use o formato : " + DATE_FORMAT);
             }
         }
     }
 
-    public static LocalDate readDate(String mensagem) {
+    public static LocalDate solicitarData(String mensagem) {
         System.out.print(mensagem + " ");
-        return readDate();
+        return solicitarData();
+    }
+
+    // Area 2.0, por Diego Kuhn - OO Java 2025-2 CC Unochapecó
+
+    /*
+     * Exemplos:
+     * String nome = Teclado.solicitar("Nome:", String.class);
+     * Integer idade = Teclado.solicitar("Idade:", Integer.class);
+     * Double salario = Teclado.solicitar("Salario:", Double.class);
+     */
+
+    // Sobrecarga incluída por Lorenzon 20261
+    public static <T> T solicitar(String mensagem, Class<T> tipo) {
+        System.out.print(mensagem + " ");
+        return solicitar(tipo);
+    }
+
+    public static <T> T solicitar(Class<T> tipo) {
+        while (true) {
+            // System.out.print(mensagem + " "); Lorenzon 20261
+            String entrada = scanner.nextLine().trim();
+
+            try {
+                if (tipo == String.class) {
+                    if (entrada.isEmpty()) {
+                        throw new IllegalArgumentException("Entrada vazia! Digite novamente.");
+                    }
+                    return tipo.cast(entrada);
+                }
+
+                // Tratamento especial para LocalDate
+                if (tipo == LocalDate.class) {
+                    return tipo.cast(LocalDate.parse(entrada, DATE_FORMAT));
+                }
+
+                // Tenta encontrar método de conversão estático, como parseInt, valueOf, etc.
+                Method parseMethod = encontrarMetodoConversao(tipo);
+                if (parseMethod != null) {
+                    Object valorConvertido = parseMethod.invoke(null, entrada);
+                    return tipo.cast(valorConvertido);
+                }
+
+                throw new IllegalArgumentException("Tipo não suportado: " + tipo.getSimpleName());
+
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida! Esperado um valor do tipo " + tipo.getSimpleName() + ".");
+            } catch (DateTimeParseException e) {
+                System.out.println("Data inválida! Use o formato " + DATE_FORMAT);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Erro ao converter valor: " + e.getMessage());
+            }
+        }
+    }
+
+    private static Method encontrarMetodoConversao(Class<?> tipo) {
+        try {
+            return tipo.getMethod("valueOf", String.class);
+        } catch (NoSuchMethodException e) {
+            try {
+                return tipo.getMethod("parse" + tipo.getSimpleName(), String.class);
+            } catch (NoSuchMethodException ex) {
+                return null;
+            }
+        }
     }
 }

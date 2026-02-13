@@ -22,9 +22,11 @@ public class App {
                 opcaoPrincipal = MenuPrincipal.exibir("Escolha sua opção:");
                 switch (opcaoPrincipal) {
                     case 1 -> {
-                        String nome = Teclado.solicitar("Insira seu nome", String.class);
+
+                        String nome = Teclado.solicitar(String.class);
                         Video.exibirMensagem("Olá " + nome + "!");
                         Video.pausarEnterContinuar();
+
                     }
                     // sem break
                 }

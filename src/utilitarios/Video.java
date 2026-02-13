@@ -1,10 +1,8 @@
-package utilitarios;
-
 public class Video {
 
     private static final int WIDTH_TELA = 100;
 
-    // --- Códigos ANSI para cores e estilos ---
+    // Códigos ANSI para cores e estilos
     public static final String RESET = "\u001B[0m";
     public static final String NEGRITO = "\u001B[1m";
     public static final String VERMELHO = "\u001B[31m";
@@ -13,16 +11,15 @@ public class Video {
     public static final String AZUL = "\u001B[34m";
     public static final String CIANO = "\u001B[36m";
 
-      
     public static void limparTela() {
-        System.out.println("\033[H\033[2J"); // limpar terminal antes de começar
+        // limpar terminal antes de começar
+        System.out.println("\033[H\033[2J");
         System.out.flush();
     }
 
-    // --- Cabeçalho ---
-    public static void cabecalho(String titulo) {
+    public static void exibirCabecalho(String titulo) {
         limparTela();
-        final int larguraTotal = WIDTH_TELA; 
+        final int larguraTotal = WIDTH_TELA;
         String tituloMaiusculo = titulo.toUpperCase();
         int espacos = (larguraTotal - tituloMaiusculo.length()) / 2;
 
@@ -34,9 +31,8 @@ public class Video {
         System.out.println(NEGRITO + linha + "\n" + RESET);
     }
 
-    // --- Rodapé ---
-    public static void rodape(String texto) {
-        final int larguraTotal = WIDTH_TELA; 
+    public static void exibirRodape(String texto) {
+        final int larguraTotal = WIDTH_TELA;
         int espacos = (larguraTotal - texto.length()) / 2;
 
         String linha = "=".repeat(larguraTotal);
@@ -47,30 +43,27 @@ public class Video {
         System.out.println(NEGRITO + linha + RESET);
     }
 
-    // --- Linha separadora ---
-    public static void separador(int largura) {
+    public static void exibirSeparador(int largura) {
         if (largura > 0) {
             String linha = "-".repeat(largura);
             System.out.println(linha);
         }
     }
 
-    public static void separador() {
-        separador(WIDTH_TELA);
+    public static void exibirSeparador() {
+        exibirSeparador(WIDTH_TELA);
     }
 
-    // --- Pausa para leitura ---
-    public static void pausa() {
+    public static void pausarEnterContinuar() {
         try {
-            System.out.println("\nPressione ENTER para continuar...");
+            System.out.println("\nPressione <ENTER> para continuar...");
             System.in.read();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // --- Escrever texto com efeito de digitação ---
-    public static void escreverLento(String texto, int delayMs) {
+    public static void escreverEfeitoLento(String texto, int delayMs) {
         for (char c : texto.toCharArray()) {
             System.out.print(c);
             try {
@@ -82,8 +75,7 @@ public class Video {
         System.out.println();
     }
 
-    // --- Barra de progresso ---
-    public static void barraProgresso(int total, int delayMs) {
+    public static void exibirBarraProgresso(int total, int delayMs) {
         for (int i = 0; i <= total; i++) {
             String barra = "[" + "#".repeat(i) + " ".repeat(total - i) + "]";
             System.out.print("\r" + barra + " " + (i * 100 / total) + "%");
@@ -96,32 +88,33 @@ public class Video {
         System.out.println();
     }
 
-    // --- Mensagens comum sem cor ---
-    public static void mensagem (String msg){
-        System.out.println (msg);
+    public static void exibirMensagem(String msg) {
+        System.out.println(msg);
     }
 
-    // --- Mensagens coloridas ---
-    public static void mensagemOk(String msg) {
+    public static void exibirMensagemOk(String msg) {
         System.out.println(VERDE + "[OK] " + msg + RESET);
     }
 
-    public static void mensagemErro(String msg) {
+    public static void exibirMensagemErro(String msg) {
         System.out.println(VERMELHO + "[ERRO] " + msg + RESET);
     }
 
-    public static void mensagemAlerta(String msg) {
+    public static void exibirMensagemAlerta(String msg) {
         System.out.println(AMARELO + "[ALERTA] " + msg + RESET);
     }
 
-    public static void mensagemInfo(String msg) {
-        System.out.println(AZUL + "[INFO] " + msg + RESET);
+    public static void exibirMensagemInformativa(String msg) {
+        System.out.println(CIANO + "[INFO] " + msg + RESET);
     }
 
-    // --- Mensagem de cofirmação --- 
-    public static boolean confirmar(String pergunta) {        
-        String resposta = Teclado.readString(pergunta + " (s/n): ").trim().toLowerCase();
+    public static boolean pedirConfirmarSn(String pergunta) {
+        String resposta = Teclado.solicitarString(pergunta + " (s/n): ").trim().toLowerCase();
         return resposta.equals("s") || resposta.equals("sim");
+    }
+
+    public static void sair() {
+        System.exit(0);
     }
 
 }

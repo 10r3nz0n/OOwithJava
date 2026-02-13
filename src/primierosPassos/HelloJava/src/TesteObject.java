@@ -37,7 +37,7 @@ public class TesteObject {
         String nome3 = nome2;
 
         Video.mensagem(nome3.toString());
-        Video.mensagem("" + nome3.hashCode()); // mudou, por que?
+        Video.mensagem("" + nome3.hashCode()); // mesmo, por que?
 
     }
 }
