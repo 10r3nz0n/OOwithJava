@@ -1,5 +1,5 @@
 public class Argumentos {
-    public static void main(String[] vetorArgumentos) {
+    public static void main(String[] java) {
 
         if (vetorArgumentos.length == 0) {
             System.out.println("Nenhum argumento foi informado.");
