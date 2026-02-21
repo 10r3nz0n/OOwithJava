@@ -116,6 +116,10 @@ public class App {
             return -1;
         }
 
+        if ((peso1 <= 0) || (peso2 <= 0) || (peso3 <= 0)) {
+            return -1;
+        }
+
         if (!validarNotas(nota1, nota2, nota3)) {
             return -1;
         }
