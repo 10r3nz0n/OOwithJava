@@ -21,11 +21,12 @@ public class App {
         double nota1 = 0, nota2 = 0, nota3 = 0;
         double peso1, peso2, peso3, media = 0;
 
+        // #region Entrada de dados
         Video.exibirCabecalho("Calculadora de médias!");
-
         nota1 = Teclado.solicitarDouble("Informe a primeira nota:");
         nota2 = Teclado.solicitarDouble("Informe a segunda nota:");
         nota3 = Teclado.solicitarDouble("Informe a terceira nota:");
+        // #endregion
 
         switch (exibirMenuOpcaoMedia()) {
 
@@ -44,10 +45,11 @@ public class App {
 
         }
 
+        // #region Saída de dados
         Video.exibirBarraProgresso(10, 50);
         exibirResultados(media);
-
         Video.exibirRodape("Fim de execução!");
+        // #endregion
 
     }
 
