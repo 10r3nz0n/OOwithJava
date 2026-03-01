@@ -26,6 +26,14 @@ public class Teclado {
         return solicitarInt();
     }
 
+    public static int integer() {
+        return solicitarInt();
+    }
+
+    public static int integer(String mensagem) {
+        return solicitarInt(mensagem);
+    }
+
     public static String solicitarString() {
         while (true) {
             String valor = scanner.nextLine().trim();
@@ -37,6 +45,14 @@ public class Teclado {
 
     public static String solicitarString(String mensagem) {
         System.out.print(mensagem + " ");
+        return solicitarString();
+    }
+
+    public static String string(String mensagem) {
+        return solicitarString(mensagem);
+    }
+
+    public static String string() {
         return solicitarString();
     }
 
@@ -53,6 +69,14 @@ public class Teclado {
 
     public static double solicitarDouble(String mensagem) {
         System.out.print(mensagem + " ");
+        return solicitarDouble();
+    }
+
+    public static double decimal(String mensagem) {
+        return solicitarDouble(mensagem);
+    }
+
+    public static double decimal() {
         return solicitarDouble();
     }
 

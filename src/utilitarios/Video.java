@@ -113,6 +113,10 @@ public class Video {
         return resposta.equals("s") || resposta.equals("sim");
     }
 
+    public static void println(String msg) {
+        exibirMensagem(msg);
+    }
+
     public static void sair() {
         System.exit(0);
     }
