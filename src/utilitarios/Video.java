@@ -1,124 +1,110 @@
-public class Video {
+package temadogrupo.utilitarios;
 
-    private static final int WIDTH_TELA = 100;
+/*
+ * SOLID S: esta classe centraliza a saida de dados da aplicacao.
+ * Java 25: usa java.lang.IO por baixo.
+ */
+public final class Video {
 
-    // Códigos ANSI para cores e estilos
+    private static final int LARGURA_TELA = 100;
+
     public static final String RESET = "\u001B[0m";
     public static final String NEGRITO = "\u001B[1m";
     public static final String VERMELHO = "\u001B[31m";
     public static final String VERDE = "\u001B[32m";
     public static final String AMARELO = "\u001B[33m";
-    public static final String AZUL = "\u001B[34m";
     public static final String CIANO = "\u001B[36m";
 
+    private Video() {
+    }
+
     public static void limparTela() {
-        // limpar terminal antes de começar
-        System.out.println("\033[H\033[2J");
-        System.out.flush();
+        IO.print("\033[H\033[2J");
+    }
+
+    public static void cabecalho(String titulo) {
+        exibirCabecalho(titulo);
     }
 
     public static void exibirCabecalho(String titulo) {
         limparTela();
-        final int larguraTotal = WIDTH_TELA;
+
         String tituloMaiusculo = titulo.toUpperCase();
-        int espacos = (larguraTotal - tituloMaiusculo.length()) / 2;
-
-        String linha = "=".repeat(larguraTotal);
+        String linha = "=".repeat(LARGURA_TELA);
+        int espacos = calcularEspacosCentralizacao(tituloMaiusculo);
         String espacosEsquerda = " ".repeat(espacos);
 
-        System.out.println(NEGRITO + linha + RESET);
-        System.out.println(espacosEsquerda + tituloMaiusculo);
-        System.out.println(NEGRITO + linha + "\n" + RESET);
+        IO.println(NEGRITO + linha + RESET);
+        IO.println(espacosEsquerda + tituloMaiusculo);
+        IO.println(NEGRITO + linha + RESET);
+        IO.println();
     }
 
-    public static void exibirRodape(String texto) {
-        final int larguraTotal = WIDTH_TELA;
-        int espacos = (larguraTotal - texto.length()) / 2;
-
-        String linha = "=".repeat(larguraTotal);
-        String espacosEsquerda = " ".repeat(espacos);
-
-        System.out.println("\n" + NEGRITO + linha + RESET);
-        System.out.println(espacosEsquerda + texto);
-        System.out.println(NEGRITO + linha + RESET);
+    public static void linhaEmBranco() {
+        IO.println();
     }
 
-    public static void exibirSeparador(int largura) {
-        if (largura > 0) {
-            String linha = "-".repeat(largura);
-            System.out.println(linha);
-        }
+    public static void mensagem(String mensagem) {
+        IO.println(mensagem);
     }
 
-    public static void exibirSeparador() {
-        exibirSeparador(WIDTH_TELA);
+    public static void println(String mensagem) {
+        IO.println(mensagem);
+    }
+
+    public static void print(String mensagem) {
+        IO.print(mensagem);
+    }
+
+    public static void mensagemOk(String mensagem) {
+        IO.println(VERDE + "[OK] " + mensagem + RESET);
+    }
+
+    public static void mensagemErro(String mensagem) {
+        IO.println(VERMELHO + "[ERRO] " + mensagem + RESET);
+    }
+
+    public static void mensagemAlerta(String mensagem) {
+        IO.println(AMARELO + "[ALERTA] " + mensagem + RESET);
+    }
+
+    public static void mensagemInfo(String mensagem) {
+        IO.println(CIANO + "[INFO] " + mensagem + RESET);
     }
 
     public static void pausarEnterContinuar() {
+        Teclado.readLine("Pressione ENTER para continuar...");
+    }
+
+    public static void barraProgresso(int total, int delayMs) {
+        if (total <= 0) {
+            return;
+        }
+
+        for (int indice = 0; indice <= total; indice++) {
+            String barra = "[" + "#".repeat(indice) + " ".repeat(total - indice) + "]";
+            IO.print("\r" + barra + " " + (indice * 100 / total) + "%");
+            aguardar(delayMs);
+        }
+
+        IO.println();
+    }
+
+    private static int calcularEspacosCentralizacao(String texto) {
+        int espacos = (LARGURA_TELA - texto.length()) / 2;
+
+        if (espacos < 0) {
+            return 0;
+        }
+
+        return espacos;
+    }
+
+    private static void aguardar(int delayMs) {
         try {
-            System.out.println("\nPressione <ENTER> para continuar...");
-            System.in.read();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Thread.sleep(delayMs);
+        } catch (InterruptedException excecao) {
+            Thread.currentThread().interrupt();
         }
     }
-
-    public static void escreverEfeitoLento(String texto, int delayMs) {
-        for (char c : texto.toCharArray()) {
-            System.out.print(c);
-            try {
-                Thread.sleep(delayMs);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        System.out.println();
-    }
-
-    public static void exibirBarraProgresso(int total, int delayMs) {
-        for (int i = 0; i <= total; i++) {
-            String barra = "[" + "#".repeat(i) + " ".repeat(total - i) + "]";
-            System.out.print("\r" + barra + " " + (i * 100 / total) + "%");
-            try {
-                Thread.sleep(delayMs);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        System.out.println();
-    }
-
-    public static void exibirMensagem(String msg) {
-        System.out.println(msg);
-    }
-
-    public static void exibirMensagemOk(String msg) {
-        System.out.println(VERDE + "[OK] " + msg + RESET);
-    }
-
-    public static void exibirMensagemErro(String msg) {
-        System.out.println(VERMELHO + "[ERRO] " + msg + RESET);
-    }
-
-    public static void exibirMensagemAlerta(String msg) {
-        System.out.println(AMARELO + "[ALERTA] " + msg + RESET);
-    }
-
-    public static void exibirMensagemInformativa(String msg) {
-        System.out.println(CIANO + "[INFO] " + msg + RESET);
-    }
-
-    public static boolean pedirConfirmarSn(String pergunta) {
-        String resposta = Teclado.solicitarString(pergunta + " (s/n): ").trim().toLowerCase();
-        return resposta.equals("s") || resposta.equals("sim");
-    }
-
-    public static void println(String msg) {
-        exibirMensagem(msg);
-    }
-
-    public static void sair() {
-        System.exit(0);
-    }
-
 }

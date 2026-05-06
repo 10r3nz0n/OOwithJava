@@ -17,7 +17,7 @@ public class J_ArrayList {
     public static void main(String[] args) throws Exception {
 
         // tipo indica qual o ArrayList<tipo> de objeto será armazenado na lista
-        ArrayList lista = new ArrayList<MeuObjeto>();
+        ArrayList<MeuObjeto> lista = new ArrayList<>();
         MeuObjeto o1, o2;
 
         o1 = new MeuObjeto();
