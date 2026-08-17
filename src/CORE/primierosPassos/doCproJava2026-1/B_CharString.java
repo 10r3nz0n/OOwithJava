@@ -1,70 +1,60 @@
+void main() {
 
-/**
- * Programa para exemplificar sintaxe e fluxo em Java
- * Objetivo: fazer uso da classe String e manipular entradas e saídas com a mesma.
- * Também explora conceitos como imutabilidade e métodos úteis da classe String.
- * 
- * Autor: Professor Lorenzon, 2026-1
- */
+      // Tipos primitivos de dados com camelCase
+      char umaLetra = 'A';
 
-import utilitarios.Teclado;
-//import java.utils.String; //Não é necessário pois String está implícita em Java
+      // Objetos de classe String
+      String linha = ""; // Cadeia de caracteres inicialmente vazia
 
-public class B_CharString { // inicio da classe
+      // Entrada de dados do usuário
+      IO.println("\nInsira alguma informação de caracteres:");
+      // readln retorna sempre String, de tudo o que for digitado
+      linha = IO.readln();
+      IO.println("\n\nA cadeia completa de caracteres informada foi " + linha);
 
-      public static void main(String[] args) { // Método principal
+      // vamos pegar a primeira letra do objeto
+      umaLetra = linha.charAt(0);
 
-            // Tipos primitivos de dados com camelCase
-            char umaLetra = 'A';
+      IO.println("O primeiro caractere digitado foi: " + umaLetra);
+      // Acionando um método do objeto da classe String
+      IO.println("O tamanho da cadeia de caracteres é de : " + linha.length());
 
-            // Objetos de classe String
-            String linha = ""; // Cadeia de caracteres inicialmente vazia
+      // Manipulação de strings
+      // Aponta para o mesmo conteúdo de 'linha' (não faz cópia profunda)
+      String aux = linha;
+      // Redefine o conteúdo de 'linha'; 'aux' mantém o valor antigo
+      linha = "Valor";
 
-            // Entrada de dados do usuário
-            System.out.println("\nInsira alguma informação de caracteres:");
-            linha = Teclado.solicitarString(); // Leitura da linha completa
-            System.out.println("\n\nA cadeia completa de caracteres informada foi " + linha);
-            umaLetra = linha.charAt(0); // vamos pegar a primeira letra
+      // Comparação de strings
+      boolean iguais = aux.equals(linha);
+      IO.println("As strings 'aux' e 'linha' são iguais? " + iguais);
 
-            System.out.printf("O primeiro caractere digitado foi: %c\n", umaLetra);
-            // Acionando um método do objeto da classe String
-            System.out.printf("O tamanho da cadeia de caracteres é de : %d\n", linha.length());
+      // Imutabilidade: métodos que alteram strings retornam novas instâncias
+      String maiuscula = aux.toUpperCase(); // Não altera aux, apenas retorna novo valor
 
-            // Manipulação de strings
-            String aux = linha; // Aponta para o mesmo conteúdo de 'linha' (não faz cópia profunda)
-            linha = "Valor"; // Redefine o conteúdo de 'linha'; 'aux' mantém o valor antigo
-
-            // Comparação de strings
-            boolean iguais = aux.equals(linha);
-            System.out.printf("As strings 'aux' e 'linha' são iguais? %b", iguais);
-
-            // Imutabilidade: métodos que alteram strings retornam novas instâncias
-            String maiuscula = aux.toUpperCase(); // Não altera aux, apenas retorna novo valor
-
-            // Demonstração de alguns métodos úteis da classe String
-            System.out.println("\nDemonstrando manipulações com a string original:");
-            System.out.println("Maiúsculas: " + aux.toUpperCase());
-            System.out.println("Minúsculas: " + aux.toLowerCase());
-            System.out.println("Contém a letra 'a'? " + aux.contains("a"));
-            System.out.println("Substituindo 'a' por '@': " + aux.replace("a", "@"));
-            System.out.println("Sem espaços nas bordas: [" + aux.trim() + "]");
-            if (aux.length() >= 2) {
-                  System.out.println("Primeiros 2 caracteres: " + aux.substring(0, 2));
-            }
-
-            /*
-             * RESUMO – Métodos úteis da classe String:
-             * ----------------------------------------
-             * .length() → Tamanho da string
-             * .charAt(i) → Caractere na posição i
-             * .equals(str) → Compara conteúdos
-             * .equalsIgnoreCase(str)→ Compara ignorando maiúsculas/minúsculas
-             * .toUpperCase() → Retorna versão maiúscula
-             * .toLowerCase() → Retorna versão minúscula
-             * .substring(i, j) → Recorte da string (do índice i até j-1)
-             * .contains(str) → Verifica se contém substring
-             * .replace(a, b) → Substitui caracteres/texto
-             * .trim() → Remove espaços das bordas
-             */
+      // Demonstração de alguns métodos úteis da classe String
+      IO.println("\nDemonstrando manipulações com a string original:");
+      IO.println("Maiúsculas: " + aux.toUpperCase());
+      IO.println("Minúsculas: " + aux.toLowerCase());
+      IO.println("Contém a letra 'a'? " + aux.contains("a"));
+      IO.println("Substituindo 'a' por '@': " + aux.replace("a", "@"));
+      IO.println("Sem espaços nas bordas: [" + aux.trim() + "]");
+      if (aux.length() >= 2) {
+            IO.println("Primeiros 2 caracteres: " + aux.substring(0, 2));
       }
+
+      /*
+       * RESUMO – Métodos úteis da classe String:
+       * ----------------------------------------
+       * .length() → Tamanho da string
+       * .charAt(i) → Caractere na posição i
+       * .equals(str) → Compara conteúdos
+       * .equalsIgnoreCase(str)→ Compara ignorando maiúsculas/minúsculas
+       * .toUpperCase() → Retorna versão maiúscula
+       * .toLowerCase() → Retorna versão minúscula
+       * .substring(i, j) → Recorte da string (do índice i até j-1)
+       * .contains(str) → Verifica se contém substring
+       * .replace(a, b) → Substitui caracteres/texto
+       * .trim() → Remove espaços das bordas
+       */
 }
